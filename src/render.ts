@@ -146,6 +146,24 @@ export class View {
     return this.cell > 0;
   }
 
+  // Read-only views of the effect state. These exist so the "a new board never
+  // inherits the last one's celebration" rule is testable without a canvas.
+  get particleCount(): number {
+    return this.particles.length;
+  }
+
+  get flashLevel(): number {
+    return this.solveFlash;
+  }
+
+  get shakeLevel(): number {
+    return this.shake;
+  }
+
+  get flipAnimCount(): number {
+    return this.flipAnims.size;
+  }
+
   /**
    * Which cell is under this pointer? Uses clientX/Y against the bounding rect
    * rather than offsetX/Y, which scales unpredictably under DPR and zoom.
@@ -200,6 +218,21 @@ export class View {
   celebrate(): void {
     this.solveFlash = 1;
     this.kick(10);
+  }
+
+  /**
+   * Drop every in-flight effect. A fresh board must not inherit the last one's
+   * celebration: effects decay in the rAF loop, and rAF is PAUSED while the tab
+   * is hidden — so "it fades in 600ms" is only true if the player is watching.
+   * Open a new level fast enough (or in a backgrounded tab) and the previous
+   * solve's white flash sits on top of it, washing the whole board out.
+   */
+  reset(): void {
+    this.particles.length = 0;
+    this.flipAnims.clear();
+    this.lockAnims.clear();
+    this.shake = 0;
+    this.solveFlash = 0;
   }
 
   update(dt: number): void {

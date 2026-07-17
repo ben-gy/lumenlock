@@ -101,6 +101,7 @@ function startPuzzle(p: Puzzle): void {
   cursor = null;
   lastTick = performance.now();
   el('hudTitle').textContent = p.label;
+  view.reset();
   view.resize(session.board.w);
   setScreen('playing');
   syncHud();
@@ -294,6 +295,7 @@ function restart(): void {
   if (!session) return;
   session.restart();
   lastTick = performance.now();
+  view.reset();
   sfx.play('select');
   setScreen('playing');
   syncHud();
