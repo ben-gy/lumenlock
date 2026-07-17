@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0a0e1a"/>
+  <g stroke-linecap="round" fill="none">
+    <!-- incoming white beam -->
+    <line x1="20.48" y1="256" x2="215.04" y2="256" stroke="#fff6e0" stroke-width="38.4" opacity="0.28"/>
+    <line x1="20.48" y1="256" x2="215.04" y2="256" stroke="#fff6e0" stroke-width="16.384"/>
+
+    <!-- the rainbow fan: red up, green straight, blue down -->
+    <line x1="256" y1="225.28" x2="486.4" y2="87.04" stroke="#ff5a3c" stroke-width="35.84" opacity="0.26"/>
+    <line x1="256" y1="225.28" x2="486.4" y2="87.04" stroke="#ff5a3c" stroke-width="15.36"/>
+    <line x1="286.72" y1="256" x2="486.4" y2="256" stroke="#7ddc3a" stroke-width="35.84" opacity="0.26"/>
+    <line x1="286.72" y1="256" x2="486.4" y2="256" stroke="#7ddc3a" stroke-width="15.36"/>
+    <line x1="256" y1="286.72" x2="486.4" y2="424.96" stroke="#3ad4ff" stroke-width="35.84" opacity="0.26"/>
+    <line x1="256" y1="286.72" x2="486.4" y2="424.96" stroke="#3ad4ff" stroke-width="15.36"/>
+  </g>
+
+  <!-- the prism -->
+  <defs>
+    <linearGradient id="p" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff5a3c" stop-opacity="0.55"/>
+      <stop offset="0.5" stop-color="#7ddc3a" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#3ad4ff" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+  <polygon points="256,122.88 373.76,337.92 138.24,337.92"
+           fill="url(#p)" stroke="#e8eeff" stroke-width="14.336" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,465 @@
+/* Lumenlock — neon on near-black, because the game is about glowing light and
+   a light theme physically cannot render a beam. */
+
+:root {
+  --bg: #0a0e1a;
+  --panel: #111731;
+  --panel-2: #171e3d;
+  --line: #26304f;
+  --ink: #e9edff;
+  --ink-dim: #9aa6cc;
+  --accent: #ffd166;
+  --red: #ff5a3c;
+  --green: #7ddc3a;
+  --blue: #3ad4ff;
+  --white-beam: #fff6e0;
+  --radius: 14px;
+}
+
+/* Belt and braces over mobile.css. Any overlay toggled with the `hidden`
+   attribute while a class sets `display` on it stays visible in Safari — an
+   invisible blur layer over the board that eats every tap. */
+[hidden] {
+  display: none !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+  min-height: calc(var(--vh) * 100);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.site-footer {
+  flex-shrink: 0;
+  padding: 10px 16px 14px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+
+.site-footer a {
+  color: var(--ink-dim);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}
+
+/* ---------- buttons ---------- */
+
+button {
+  font-family: inherit;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+button:hover {
+  background: #1e2750;
+  border-color: #3a4675;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #3a67ff, #2a4ad6);
+  border-color: #5b83ff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(180deg, #4a75ff, #3556e0);
+}
+
+.btn-ghost {
+  background: transparent;
+}
+
+.icon-btn {
+  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- HUD ---------- */
+
+#hud {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  flex-wrap: wrap;
+}
+
+.hud-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.hud-stats {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  align-items: center;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stat b {
+  color: var(--accent);
+}
+
+.stat.is-under b {
+  color: var(--green);
+}
+
+.hud-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ---------- the board ---------- */
+
+#stage {
+  flex: 1 1 auto;
+  position: relative;
+  min-height: 0;
+  margin: 4px 8px 8px;
+}
+
+#board {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  border-radius: var(--radius);
+}
+
+/* ---------- overlays ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(6, 9, 20, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow-y: auto;
+}
+
+.panel {
+  width: min(460px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  animation: rise 0.22s ease-out;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.panel h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, var(--red), var(--accent), var(--green), var(--blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 21px;
+}
+
+.tagline {
+  margin: 6px 0 18px;
+  color: var(--ink-dim);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.panel p {
+  line-height: 1.6;
+  font-size: 14px;
+  color: #cdd6f5;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.menu-buttons button {
+  width: 100%;
+  padding: 13px;
+  font-size: 16px;
+}
+
+.menu-row {
+  display: flex;
+  gap: 9px;
+}
+
+.menu-row button {
+  flex: 1;
+}
+
+.panel-close {
+  margin-top: 16px;
+  width: 100%;
+}
+
+/* ---------- how to play ---------- */
+
+.rule {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 13px;
+}
+
+.rule-key {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+
+.rule-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #cdd6f5;
+}
+
+.rule-text b {
+  color: var(--ink);
+}
+
+.swatch-red {
+  color: var(--red);
+}
+.swatch-green {
+  color: var(--green);
+}
+.swatch-blue {
+  color: var(--blue);
+}
+.swatch-white {
+  color: var(--white-beam);
+}
+
+.controls-note {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink-dim);
+  line-height: 1.6;
+}
+
+kbd {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------- results ---------- */
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.result-cell {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 6px;
+  text-align: center;
+}
+
+.result-cell .big {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-cell .lbl {
+  font-size: 11px;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+.verdict {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 9px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+
+.verdict.under {
+  background: rgba(125, 220, 58, 0.14);
+  color: var(--green);
+  border: 1px solid rgba(125, 220, 58, 0.35);
+}
+
+.verdict.par {
+  background: rgba(255, 209, 102, 0.14);
+  color: var(--accent);
+  border: 1px solid rgba(255, 209, 102, 0.35);
+}
+
+.verdict.over {
+  background: rgba(58, 212, 255, 0.1);
+  color: var(--blue);
+  border: 1px solid rgba(58, 212, 255, 0.28);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 14px;
+  z-index: 100;
+  animation: rise 0.2s ease-out;
+  pointer-events: none;
+}
+
+.about-note {
+  font-size: 12px;
+  color: var(--ink-dim);
+  line-height: 1.6;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+
+.settings-row:first-of-type {
+  border-top: none;
+}
+
+/* Bigger tap targets and a tighter header where it counts. */
+@media (max-width: 430px) {
+  .panel {
+    padding: 18px;
+  }
+  .panel h1 {
+    font-size: 28px;
+  }
+  #hud {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+  .hud-title {
+    font-size: 13px;
+  }
+  .stat {
+    padding: 4px 9px;
+    font-size: 12px;
+  }
+  #stage {
+    margin: 2px 4px 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
+  button:active {
+    transform: none;
+  }
+}
