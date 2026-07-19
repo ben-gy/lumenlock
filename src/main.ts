@@ -3,6 +3,11 @@
  * screens and forwards taps into the Session.
  */
 
+// feedback:begin (managed by hub/scripts/feedback/backfill.mjs)
+import { mountFeedback } from './feedback';
+mountFeedback();
+// feedback:end
+
 import './styles/mobile.css';
 import './styles/main.css';
 
