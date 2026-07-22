@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Ben Richardson — https://benrichardson.dev
+// Additional terms under AGPL-3.0 section 7(b) apply; see ADDITIONAL-TERMS.md.
 /**
  * mobile.ts — the parts of "never zoom, never feel like a web page" that CSS
  * cannot express on its own. Copied from gh-game-factory/patterns/mobile.ts.

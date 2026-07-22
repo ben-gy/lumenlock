@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Ben Richardson — https://benrichardson.dev
+// Additional terms under AGPL-3.0 section 7(b) apply; see ADDITIONAL-TERMS.md.
 /**
  * loop.ts — fixed-timestep game loop with a render interpolation hook.
  * Copied from gh-game-factory/patterns/loop.ts — do not re-roll the accumulator.

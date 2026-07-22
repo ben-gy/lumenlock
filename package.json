@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Tap mirrors to bend a beam of light through a prism and lock every crystal in its own colour.",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
